@@ -11,12 +11,21 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   redirectIfAuth(); // redirect to home page if user already logged in
 
   const handleRegister = async (e) => {
+    setError("");
     e.preventDefault();
+
+    // check if password and confirm password are matched
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -80,14 +89,28 @@ export default function Register() {
               className="border mt-2 px-4 py-2 rounded-md"
             />
           </div>
-          {/* <div className="mt-8 flex flex-col">
+          <div className="mt-8 flex flex-col">
             <input
               type="password"
               placeholder="Confirm password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmPassword}
               required
               className="border mt-2 px-4 py-2 rounded-md"
             />
-          </div> */}
+            {error && (
+              <p className="text-red-500 inline-flex">
+                <svg
+                  className="h-4 w-4 fill-red-500 m-1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+                </svg>
+                {error}
+              </p>
+            )}
+          </div>
 
           <button
             type="submit"
