@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: ani_rec
+    restart: unless-stopped
+    image: nextjs-app
+    build:
+      context: ..
+      dockerfile: deployment/next.Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
