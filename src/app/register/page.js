@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import redirectIfAuth from "@/hooks/redirectIfAuth";
+import GoogleSign from "@/component/googleSign";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -54,50 +55,81 @@ export default function Register() {
         </a>
       </div>
       <div className="flex justify-center h-full items-center">
-        <form
-          onSubmit={handleRegister}
-          className="bg-white p-8 space-y-4 rounded-lg max-w-md w-full shadow"
-        >
-          <h1 className="text-2xl text-center font-bold">Sign up</h1>
-          <div className="mt-8 flex flex-col">
-            <input
-              type="text"
-              placeholder="Enter your username"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-              required
-              className="border mt-2 px-4 py-2 rounded-md"
-            />
-          </div>
-          <div className="mt-8 flex flex-col">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              required
-              className="border mt-2 px-4 py-2 rounded-md"
-            />
-          </div>
-          <div className="mt-8 flex flex-col">
-            <input
-              type="password"
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              required
-              className="border mt-2 px-4 py-2 rounded-md"
-            />
-          </div>
-          <div className="mt-8 flex flex-col">
-            <input
-              type="password"
-              placeholder="Confirm password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              value={confirmPassword}
-              required
-              className="border mt-2 px-4 py-2 rounded-md"
-            />
+        <div className="bg-white p-8 space-y-4 rounded-lg max-w-md w-full shadow">
+          <form onSubmit={handleRegister} className="space-y-4">
+            <h1 className="text-2xl text-center font-bold">Sign up</h1>
+
+            <label className="input input-bordered flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                className="h-4 w-4 opacity-70"
+              >
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+              </svg>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your username"
+                required
+              />
+            </label>
+            <label className="input input-bordered flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                className="h-5 w-5 opacity-70"
+              >
+                <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+              </svg>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+              />
+            </label>
+
+            <label className="input input-bordered flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                className="h-4 w-4 opacity-70"
+              >
+                <path d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" />
+              </svg>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                required
+              />
+            </label>
+
+            <label
+              className={`input input-bordered flex items-center gap-2 ${
+                error ? "input-error" : ""
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                className="h-4 w-4 opacity-70"
+              >
+                <path d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" />
+              </svg>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm password"
+                required
+              />
+            </label>
             {error && (
               <p className="text-red-500 inline-flex">
                 <svg
@@ -110,59 +142,33 @@ export default function Register() {
                 {error}
               </p>
             )}
-          </div>
 
-          <button
-            type="submit"
-            className="bg-slate-800 w-full p-2 text-white rounded-md"
-          >
-            Register
-          </button>
-
-          <p className="text-center ">
-            Already have an Account?{" "}
-            <a
-              href="/login"
-              className="text-blue-500 font-bold hover:underline"
+            <button
+              type="submit"
+              className="bg-slate-800 w-full p-2 text-white rounded-md"
             >
-              Login
-            </a>
-          </p>
+              Register
+            </button>
 
-          {/* horizontal with text */}
-          <div className="flex items-center mx-auto my-8">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="mx-3 font-bold">Or continue with</span>
-            <div className="flex-grow border-t border-gray-300"></div>
-          </div>
+            <p className="text-center ">
+              Already have an Account?{" "}
+              <a
+                href="/login"
+                className="text-blue-500 font-bold hover:underline"
+              >
+                Login
+              </a>
+            </p>
 
-          {/* <button className="bg-slate-800 w-full p-4 inline-flex justify-center space-x-2 rounded-md">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
-              viewBox="0 0 48 48"
-            >
-              <path
-                fill="#FFC107"
-                d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
-              ></path>
-              <path
-                fill="#FF3D00"
-                d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
-              ></path>
-              <path
-                fill="#4CAF50"
-                d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
-              ></path>
-              <path
-                fill="#1976D2"
-                d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
-              ></path>
-            </svg>
-            <span className="text-white">Continue with Google</span>
-          </button> */}
-        </form>
+            {/* horizontal with text */}
+            <div className="flex items-center mx-auto my-8">
+              <div className="flex-grow border-t border-gray-300"></div>
+              <span className="mx-3 font-bold">OR</span>
+              <div className="flex-grow border-t border-gray-300"></div>
+            </div>
+          </form>
+          <GoogleSign />
+        </div>
       </div>
     </div>
   );
