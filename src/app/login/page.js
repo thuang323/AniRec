@@ -1,11 +1,12 @@
 "use client";
+
 import redirectIfAuth from "@/hooks/redirectIfAuth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../../firebase";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
-import GoogleSign from "@/component/googleSign";
+import GoogleSign from "@/component/GoogleSign";
 
 export default function Login() {
   const [email, setEmail] = useState("");
