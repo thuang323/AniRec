@@ -1,7 +1,7 @@
 *.Dockerfile
-*.dockerignore
+.dockerignore
 deployment
-node_modules
+*node_modules
 npm-debug.log
 README.md
 .next
