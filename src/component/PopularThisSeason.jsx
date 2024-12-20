@@ -5,16 +5,15 @@ import { PulseLoader } from "react-spinners";
 import ErrorMessage from "./ErrorMessage";
 import HomePageAnimeGrid from "./HomePageAnimeGrid";
 
-export default function TopAiring() {
-  const [topAiringAnime, setTopAiringAnime] = useState([]);
+export default function PopularThisSeason() {
+  const [popularSeasonAnime, setPopularSeasonAnime] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const fetchTopAiringAnime = async () => {
+  const fetchPopularSeasonAnime = async () => {
     const baseURL = "https://api.jikan.moe/v4/";
     const params = {
-      type: "tv",
-      filter: "airing",
+      filter: "tv",
       page: 1,
       limit: 6,
       sfw: "",
@@ -23,14 +22,15 @@ export default function TopAiring() {
     const queryParams = new URLSearchParams(params).toString();
 
     try {
-      const response = await fetch(`${baseURL}top/anime?${queryParams}`, {
+      const response = await fetch(`${baseURL}seasons/now?${queryParams}`, {
         method: "GET",
       });
+
       if (!response.ok) throw new Error("Failed to fetch data");
 
       const data = await response.json();
       console.log(data.data);
-      setTopAiringAnime(data.data);
+      setPopularSeasonAnime(data.data);
     } catch (error) {
       console.log(error.message);
       setError(true);
@@ -40,7 +40,7 @@ export default function TopAiring() {
   };
 
   useEffect(() => {
-    fetchTopAiringAnime();
+    fetchPopularSeasonAnime();
   }, []);
 
   if (loading) {
@@ -52,14 +52,14 @@ export default function TopAiring() {
   }
 
   if (error) {
-    return <ErrorMessage category="top airing anime" />
+    return <ErrorMessage category="popular this season anime" />;
   }
 
   return (
     <HomePageAnimeGrid
       apiType="jikan"
-      title="Top Airing"
-      animeList={topAiringAnime}
+      title="Popular This Season"
+      animeList={popularSeasonAnime}
       viewMoreHref={"youtube.com"}
     />
   );

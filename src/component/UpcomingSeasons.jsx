@@ -5,14 +5,14 @@ import { PulseLoader } from "react-spinners";
 import ErrorMessage from "./ErrorMessage";
 import HomePageAnimeGrid from "./HomePageAnimeGrid";
 
-export default function AllTimePopular() {
-  const [allTimePopularAnime, setAllTimePopularAnime] = useState([]);
+export default function UpcomingSeasons() {
+  const [upcomingSeasonsAnime, setUpcomingSeasonsAnime] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const fetchAllTimePopularAnime = async () => {
+  const fetchUpcomingSeasonsAnime = async () => {
     try {
-      const response = await fetch(`/api/malAllTime`, {
+      const response = await fetch("/api/malUpcoming", {
         method: "GET",
       });
       if (!response.ok) throw new Error("Failed to fetch data");
@@ -44,14 +44,14 @@ export default function AllTimePopular() {
 
       const details = await Promise.all(detailsPromises);
       console.log(details);
-      setAllTimePopularAnime(details);
+      setUpcomingSeasonsAnime(details);
     } catch (error) {
       console.log("Error fetching anime details:", error);
     }
   };
 
   useEffect(() => {
-    fetchAllTimePopularAnime();
+    fetchUpcomingSeasonsAnime();
   }, []);
 
   if (loading) {
@@ -63,14 +63,14 @@ export default function AllTimePopular() {
   }
 
   if (error) {
-    return <ErrorMessage category="all time popular anime" />;
+    return <ErrorMessage category="upcoming seasons anime" />;
   }
 
   return (
     <HomePageAnimeGrid
       apiType="mal"
-      title="All Time Popular"
-      animeList={allTimePopularAnime}
+      title="Upcoming Seasons"
+      animeList={upcomingSeasonsAnime}
       viewMoreHref={"youtube.com"}
     />
   );
