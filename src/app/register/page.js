@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import redirectIfAuth from "@/hooks/redirectIfAuth";
-import GoogleSign from "@/component/googleSign";
+import GoogleSign from "@/component/GoogleSign";
 
 export default function Register() {
   const [name, setName] = useState("");
