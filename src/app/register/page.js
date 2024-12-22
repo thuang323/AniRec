@@ -49,8 +49,8 @@ export default function Register() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <div className="navbar bg-base-100">
-        <a href="/" className="btn btn-ghost text-2xl">
+      <div className="navbar bg-black text-white">
+        <a href="/" className="btn btn-ghost hover:bg-gray-800 text-2xl">
           AniRec
         </a>
       </div>
