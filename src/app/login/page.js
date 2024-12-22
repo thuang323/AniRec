@@ -39,8 +39,8 @@ export default function Login() {
   };
   return (
     <div className="bg-gray-100 h-screen flex flex-col">
-      <div className="navbar bg-base-100">
-        <a href="/" className="btn btn-ghost text-2xl">
+      <div className="navbar bg-black text-white">
+        <a href="/" className="btn btn-ghost hover:bg-gray-800 text-2xl">
           AniRec
         </a>
       </div>

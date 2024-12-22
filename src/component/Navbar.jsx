@@ -20,9 +20,12 @@ export default function Navbar() {
   };
 
   return (
-    <div className="navbar">
+    <div className="navbar text-white bg-black">
       <div className="dropdown md:hidden">
-        <label tabIndex={0} className="btn btn-square btn-ghost">
+        <label
+          tabIndex={0}
+          className="btn btn-square btn-ghost hover:bg-gray-800"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -39,7 +42,7 @@ export default function Navbar() {
         </label>
         <ul
           tabIndex={0}
-          className="menu dropdown-content mt-3 p-2 shadow-lg rounded-lg w-52"
+          className="menu dropdown-content mt-3 p-2 shadow-lg rounded-lg w-52 bg-black"
         >
           <li>
             <a>Genres</a>
@@ -51,15 +54,17 @@ export default function Navbar() {
       </div>
 
       <div className="flex-auto">
-        <a className="btn btn-ghost text-2xl">AniRec</a>
+        <a href="/" className="btn btn-ghost hover:bg-gray-800 text-2xl">
+          AniRec
+        </a>
       </div>
       <div className="hidden md:flex md:flex-1">
-        <a className="btn btn-ghost text-lg">Genres</a>
-        <a className="btn btn-ghost text-lg">My List</a>
+        <a className="btn btn-ghost hover:bg-gray-800 text-lg">Genres</a>
+        <a className="btn btn-ghost hover:bg-gray-800 text-lg">My List</a>
       </div>
 
-      <label className="input input-bordered flex items-center gap-2">
-        <input type="text" className="grow" placeholder="Search" />
+      <label className="input input-bordered flex items-center gap-2 mr-1">
+        <input type="text" className="text-gray-600" placeholder="Search" />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
@@ -74,7 +79,10 @@ export default function Navbar() {
       </label>
 
       {user ? (
-        <button onClick={handleLogout} className="btn btn-ghost">
+        <button
+          onClick={handleLogout}
+          className="btn btn-ghost hover:bg-gray-800"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -85,7 +93,10 @@ export default function Navbar() {
           <span>Logout</span>
         </button>
       ) : (
-        <button onClick={() => router.push("/login")} className="btn btn-ghost">
+        <button
+          onClick={() => router.push("/login")}
+          className="btn btn-ghost hover:bg-gray-800"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
