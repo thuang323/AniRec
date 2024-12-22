@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "@/component/navbar";
+import Navbar from "@/component/Navbar";
 import { Star, Trophy, List, Heart, Trash2 } from "lucide-react";
 
 async function getAnime(id) {
