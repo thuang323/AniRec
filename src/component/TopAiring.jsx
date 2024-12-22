@@ -16,7 +16,7 @@ export default function TopAiring() {
       type: "tv",
       filter: "airing",
       page: 1,
-      limit: 6,
+      limit: 10,
       sfw: "",
     };
 
@@ -52,15 +52,21 @@ export default function TopAiring() {
   }
 
   if (error) {
-    return <ErrorMessage category="top airing anime" />
+    return <ErrorMessage category="top airing anime" />;
   }
 
   return (
     <HomePageAnimeGrid
       apiType="jikan"
       title="Top Airing"
-      animeList={topAiringAnime}
-      viewMoreHref={"youtube.com"}
+      animeList={topAiringAnime
+        .filter(
+          (anime, index) =>
+            topAiringAnime.findIndex((a) => a.mal_id === anime.mal_id) ===
+            index,
+        )
+        .slice(0, 6)}
+      viewMoreHref={"topAiring"}
     />
   );
 }

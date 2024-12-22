@@ -4,7 +4,7 @@ export async function GET(req, { params }) {
   const animeId = (await params).animeId;
   const malBaseURL = "https://api.myanimelist.net/v2/";
   const queryParams = new URLSearchParams({
-    fields: "id,title,main_picture,alternative_titles",
+    fields: "id,title,alternative_titles,main_picture,genres,num_episodes,media_type,status,start_season,studios,start_date,end_date",
   }).toString();
   const token = process.env.NEXT_PUBLIC_MAL_TOKEN;
 

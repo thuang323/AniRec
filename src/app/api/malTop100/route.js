@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
   const malBaseURL = "https://api.myanimelist.net/v2/";
   const params = {
-    ranking_type: "upcoming",
     limit: 10,
     fields: "id,title,alternative_titles,main_picture,genres,num_episodes,media_type,status,start_season,studios,start_date,end_date",
   };

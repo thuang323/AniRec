@@ -20,8 +20,9 @@ export default function UpcomingSeasons() {
       const data = await response.json();
       console.log(data.data);
 
+      setUpcomingSeasonsAnime(data.data)
       // fetch details for each anime
-      fetchAnimeDetails(data.data);
+      // fetchAnimeDetails(data.data);
     } catch (error) {
       console.log(error.message);
       setError(true);
@@ -30,25 +31,25 @@ export default function UpcomingSeasons() {
     }
   };
 
-  const fetchAnimeDetails = async (animeList) => {
-    try {
-      const detailsPromises = animeList.map(async (anime) => {
-        const response = await fetch(`/api/malGetAnime/${anime.node.id}`, {
-          method: "GET",
-        });
-        if (!response.ok) throw new Error("Failed to fetch anime details");
-
-        const data = await response.json();
-        return data;
-      });
-
-      const details = await Promise.all(detailsPromises);
-      console.log(details);
-      setUpcomingSeasonsAnime(details);
-    } catch (error) {
-      console.log("Error fetching anime details:", error);
-    }
-  };
+  // const fetchAnimeDetails = async (animeList) => {
+  //   try {
+  //     const detailsPromises = animeList.map(async (anime) => {
+  //       const response = await fetch(`/api/malGetAnime/${anime.node.id}`, {
+  //         method: "GET",
+  //       });
+  //       if (!response.ok) throw new Error("Failed to fetch anime details");
+  //
+  //       const data = await response.json();
+  //       return data;
+  //     });
+  //
+  //     const details = await Promise.all(detailsPromises);
+  //     console.log(details);
+  //     setUpcomingSeasonsAnime(details);
+  //   } catch (error) {
+  //     console.log("Error fetching anime details:", error);
+  //   }
+  // };
 
   useEffect(() => {
     fetchUpcomingSeasonsAnime();
@@ -70,8 +71,14 @@ export default function UpcomingSeasons() {
     <HomePageAnimeGrid
       apiType="mal"
       title="Upcoming Seasons"
-      animeList={upcomingSeasonsAnime}
-      viewMoreHref={"youtube.com"}
+      animeList={upcomingSeasonsAnime
+        .filter(
+          (anime, index) =>
+            upcomingSeasonsAnime.findIndex((a) => a.node.id === anime.node.id) ===
+            index,
+        )
+        .slice(0, 6)}
+      viewMoreHref={"upcomingSeasons"}
     />
   );
 }

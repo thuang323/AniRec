@@ -1,5 +1,5 @@
 import Link from "next/link";
-import AnimeCard from "./AnimeCard";
+import AnimeCards from "./AnimeCards";
 
 export default function HomePageAnimeGrid({ apiType, title, animeList, viewMoreHref }) {
   return (
@@ -14,7 +14,7 @@ export default function HomePageAnimeGrid({ apiType, title, animeList, viewMoreH
         </Link>
       </div>
       <div className="grid min-w-full grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-4 justify-items-center">
-        <AnimeCard apiType={apiType} animeList={animeList} />
+        <AnimeCards apiType={apiType} animeList={animeList} />
       </div>
     </div>
   );

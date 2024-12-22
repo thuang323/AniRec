@@ -15,7 +15,7 @@ export default function PopularThisSeason() {
     const params = {
       filter: "tv",
       page: 1,
-      limit: 6,
+      limit: 10,
       sfw: "",
     };
 
@@ -59,8 +59,14 @@ export default function PopularThisSeason() {
     <HomePageAnimeGrid
       apiType="jikan"
       title="Popular This Season"
-      animeList={popularSeasonAnime}
-      viewMoreHref={"youtube.com"}
+      animeList={popularSeasonAnime
+        .filter(
+          (anime, index) =>
+            popularSeasonAnime.findIndex((a) => a.mal_id === anime.mal_id) ===
+            index,
+        )
+        .slice(0, 6)}
+      viewMoreHref={"popularSeason"}
     />
   );
 }

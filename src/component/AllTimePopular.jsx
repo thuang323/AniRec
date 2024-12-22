@@ -20,8 +20,9 @@ export default function AllTimePopular() {
       const data = await response.json();
       console.log(data.data);
 
+      setAllTimePopularAnime(data.data);
       // fetch details for each anime
-      fetchAnimeDetails(data.data);
+      // fetchAnimeDetails(data.data);
     } catch (error) {
       console.log(error.message);
       setError(true);
@@ -30,25 +31,25 @@ export default function AllTimePopular() {
     }
   };
 
-  const fetchAnimeDetails = async (animeList) => {
-    try {
-      const detailsPromises = animeList.map(async (anime) => {
-        const response = await fetch(`/api/malGetAnime/${anime.node.id}`, {
-          method: "GET",
-        });
-        if (!response.ok) throw new Error("Failed to fetch anime details");
-
-        const data = await response.json();
-        return data;
-      });
-
-      const details = await Promise.all(detailsPromises);
-      console.log(details);
-      setAllTimePopularAnime(details);
-    } catch (error) {
-      console.log("Error fetching anime details:", error);
-    }
-  };
+  // const fetchAnimeDetails = async (animeList) => {
+  //   try {
+  //     const detailsPromises = animeList.map(async (anime) => {
+  //       const response = await fetch(`/api/malGetAnime/${anime.node.id}`, {
+  //         method: "GET",
+  //       });
+  //       if (!response.ok) throw new Error("Failed to fetch anime details");
+  //
+  //       const data = await response.json();
+  //       return data;
+  //     });
+  //
+  //     const details = await Promise.all(detailsPromises);
+  //     console.log(details);
+  //     setAllTimePopularAnime(details);
+  //   } catch (error) {
+  //     console.log("Error fetching anime details:", error);
+  //   }
+  // };
 
   useEffect(() => {
     fetchAllTimePopularAnime();
@@ -70,8 +71,14 @@ export default function AllTimePopular() {
     <HomePageAnimeGrid
       apiType="mal"
       title="All Time Popular"
-      animeList={allTimePopularAnime}
-      viewMoreHref={"youtube.com"}
+      animeList={allTimePopularAnime
+        .filter(
+          (anime, index) =>
+            allTimePopularAnime.findIndex((a) => a.node.id === anime.node.id) ===
+            index,
+        )
+        .slice(0, 6)}
+      viewMoreHref={"allTimePopular"}
     />
   );
 }
