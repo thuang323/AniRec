@@ -9,17 +9,17 @@ export default function Top100Cards({ animeList }) {
           key={anime.node.id}
           className="flex items-stretch p-4"
         >
-          {/* Rank Number */}
+          {/* rank */}
           <div className="w-20 flex-shrink-0 flex justify-center items-center">
             <h1 className="font-bold text-4xl text-gray-400">
               #{anime.ranking.rank}
             </h1>
           </div>
-          {/* Main Content Container */}
+          {/* main content div */}
           <div className="bg-white w-full flex flex-col md:flex-row justify-between rounded-lg">
-            {/* Left Side Content */}
+            {/* left content */}
             <div className="flex items-center flex-grow min-w-0">
-              {/* Image */}
+              {/* image */}
               <Link href={`/anime/${anime.node.id}`} className="flex-shrink-0">
                 <div className="flex items-center gap-4 ml-4">
                   <div className="aspect-[3/4] h-32 overflow-hidden rounded-lg shadow-md">
@@ -31,7 +31,7 @@ export default function Top100Cards({ animeList }) {
                   </div>
                 </div>
               </Link>
-              {/* Title and Genres */}
+              {/* title and genres */}
               <div className="flex flex-col justify-center ml-4 md:ml-6 min-w-0 flex-grow">
                 <Link
                   href={`/anime/${anime.node.id}`}
@@ -56,9 +56,9 @@ export default function Top100Cards({ animeList }) {
                 </div>
               </div>
             </div>
-            {/* Right Side Info - Fixed Width Containers */}
+            {/* right content */}
             <div className="flex flex-shrink-0 overflow-hidden text-center divide-x divide-gray-100 capitalize truncate text-sm mt-4 md:mt-0">
-              {/* Media Type and Episodes - Fixed Width */}
+              {/* media */}
               <div className="flex flex-col p-4 w-32 md:w-36 justify-center space-y-3">
                 <div className="px-3 py-1 bg-rose-50 rounded-lg w-full">
                   <p className="font-semibold text-rose-700">
@@ -71,7 +71,7 @@ export default function Top100Cards({ animeList }) {
                   </p>
                 </div>
               </div>
-              {/* Season and Year - Fixed Width */}
+              {/* season */}
               <div className="flex flex-col p-4 w-32 md:w-36 justify-center space-y-3">
                 <div className="px-3 py-1 bg-purple-50 rounded-lg w-full">
                   <p className="font-semibold text-purple-700">

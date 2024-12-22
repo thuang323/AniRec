@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "@/component/Navbar";
 import { Star, Trophy, List, Heart, Trash2 } from "lucide-react";
+import AnimeCards from "@/component/AnimeCards";
 
 async function getAnime(id) {
   const res = await fetch("https://api.jikan.moe/v4/anime/" + id);
@@ -19,7 +20,7 @@ export default async function AnimePage({ params }) {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-6xl mx-auto mt-4">
         <div className="md:col-span-1 space-y-5">
           {/* image */}
           <div className="relative p-6 flex justify-center items-center">
@@ -101,12 +102,16 @@ export default async function AnimePage({ params }) {
               <div className="flex gap-2">
                 <Star className="text-yellow-400 fill-yellow-400" />
                 <span className="text-gray-500">Score:</span>
-                <span className="font-bold">{anime.score}</span>
+                <span className="font-bold">
+                  {anime.score || <span>N/A</span>}
+                </span>
               </div>
               <div className="flex gap-2">
                 <Trophy className="text-blue-500" />
                 <span className="text-gray-500">Rank:</span>
-                <span className="font-bold">#{anime.rank}</span>
+                <span className="font-bold">
+                  {anime.rank ? <span>#{anime.rank}</span> : <span>N/A</span>}
+                </span>
               </div>
             </div>
           </div>
@@ -128,6 +133,7 @@ export default async function AnimePage({ params }) {
       </div>
 
       {/* recommendations */}
+      {/* <AnimeCards /> */}
     </div>
   );
 }
