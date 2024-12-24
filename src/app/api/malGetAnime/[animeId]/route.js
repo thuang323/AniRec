@@ -4,7 +4,8 @@ export async function GET(req, { params }) {
   const animeId = (await params).animeId;
   const malBaseURL = "https://api.myanimelist.net/v2/";
   const queryParams = new URLSearchParams({
-    fields: "id,title,alternative_titles,main_picture,genres,num_episodes,media_type,status,start_season,studios,start_date,end_date",
+    fields:
+      "id,title,alternative_titles,main_picture,genres,num_episodes,media_type,status,start_season,studios,start_date,end_date,related_anime",
   }).toString();
   const token = process.env.NEXT_PUBLIC_MAL_TOKEN;
 
@@ -17,13 +18,13 @@ export async function GET(req, { params }) {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-      },
+      }
     );
 
     if (!response.ok) {
       return NextResponse.json(
         { error: "Failed to fetch data from MyAnimeList" },
-        { status: response.status },
+        { status: response.status }
       );
     }
 
@@ -36,7 +37,7 @@ export async function GET(req, { params }) {
     console.error("Error fetching data from MyAnimeList:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

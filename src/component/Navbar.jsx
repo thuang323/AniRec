@@ -21,7 +21,7 @@ export default function Navbar() {
 
   return (
     <div className="navbar text-white bg-black">
-      <div className="dropdown md:hidden">
+      <div className="dropdown md:hidden z-50">
         <label
           tabIndex={0}
           className="btn btn-square btn-ghost hover:bg-gray-800"
