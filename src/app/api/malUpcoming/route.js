@@ -5,7 +5,8 @@ export async function GET(req) {
   const params = {
     ranking_type: "upcoming",
     limit: 10,
-    fields: "id,title,alternative_titles,main_picture,genres,num_episodes,media_type,status,start_season,studios,start_date,end_date",
+    fields:
+      "id,title,alternative_titles,main_picture,genres,num_episodes,media_type,status,start_season,studios,start_date,end_date",
   };
   const queryParams = new URLSearchParams(params).toString();
   const token = process.env.NEXT_PUBLIC_MAL_TOKEN;

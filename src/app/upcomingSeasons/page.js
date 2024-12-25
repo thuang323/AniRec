@@ -1,3 +1,15 @@
+"use client";
+
+import SeasonsAllTimeTop100 from "@/component/SeasonsAllTimeTop100";
+
 export default function UpcomingSeasonsPage() {
-  return <div><h1>Upcoming Seasons page</h1></div>
+  const baseURL = "https://api.jikan.moe/v4/seasons/upcoming?sfw";
+
+  return (
+    <SeasonsAllTimeTop100
+      baseURL={baseURL}
+      query="filter"
+      category="Upcoming Seasons"
+    />
+  );
 }

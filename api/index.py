@@ -38,7 +38,9 @@ def recommend():
 
 # dynamically trained recommendations
 def dynamic_recommend(data):
-  synopsis = data.get("synopsis", "")
+  synopsis = data.get("synopsis")
+  synopsis = synopsis if synopsis is not None else ""
+  
   genres = [genre["name"] for genre in data["genres"]]
   popularity = data["popularity"]
   
