@@ -4,9 +4,7 @@ import AnimeCards from "@/component/AnimeCards";
 import Navbar from "@/component/Navbar";
 import { useEffect, useState } from "react";
 
-export default function TopAiringPage() {
-  const baseURL = "https://api.jikan.moe/v4/top/anime?sfw&filter=airing";
-
+export default function SeasonsAllTimeTop100({ baseURL, category, query }) {
   const [currentTVPage, setCurrentTVPage] = useState(1);
   const [currentMoviePage, setCurrentMoviePage] = useState(1);
   const [animeList, setAnimeList] = useState([]);
@@ -21,7 +19,7 @@ export default function TopAiringPage() {
       console.log(currentType);
 
       const response = await fetch(
-        baseURL + `&type=${currentType}&page=${currentPage}`
+        baseURL + `&${query}=${currentType}&page=${currentPage}`
       );
 
       if (!response.ok) throw new Error("Failed to fetch data");
@@ -52,8 +50,31 @@ export default function TopAiringPage() {
     }
   };
 
+  // for pagination
+  const currentPage = currentType === "tv" ? currentTVPage : currentMoviePage;
+
+  const pageButton = (page) => (
+    <button
+      key={page}
+      className={`join-item btn ${
+        page === currentPage
+          ? "bg-purple-500 text-white hover:bg-purple-900"
+          : "bg-gray-100 text-black hover:bg-gray-200"
+      }`}
+      onClick={() => handlePageClicked(page)}
+    >
+      {page}
+    </button>
+  );
+
+  const pageNums = [...Array(5)]
+    .map((_, index) => currentPage - 2 + index)
+    .filter((page) => page > 1 && page < lastVisiblePage);
+
+  if (lastVisiblePage <= 1) return null;
+
   return (
-    <div className="min-h-screen bg-gray-100 pb-5">
+    <div className="min-h-screen bg-gray-100 pb-8">
       <Navbar />
       <div className="max-w-6xl mx-auto bg-white p-5 my-8 rounded-lg shodow-lg">
         <div className="flex text-white mb-5">
@@ -61,13 +82,13 @@ export default function TopAiringPage() {
             onClick={() => handleTypeClicked("tv")}
             className="bg-purple-500 hover:bg-purple-800 p-3 w-full rounded-l-lg border-r-2"
           >
-            Top Airing TV Shows
+            {category} TV Shows
           </button>
           <button
             onClick={() => handleTypeClicked("movie")}
             className="bg-purple-500 hover:bg-purple-800 p-3 w-full rounded-r-lg"
           >
-            Top Airing Movies
+            {category} Movies
           </button>
         </div>
 
@@ -81,23 +102,26 @@ export default function TopAiringPage() {
           />
         </div>
         <div className="join flex justify-center mt-8">
-          {[...Array(lastVisiblePage)].map((_, index) => {
-            const page = index + 1;
-            return (
-              <button
-                key={page}
-                className={`join-item btn ${
-                  page ===
-                  (currentType === "tv" ? currentTVPage : currentMoviePage)
-                    ? "bg-purple-500 text-white hover:bg-purple-800"
-                    : "bg-gray-100 text-black hover:bg-gray-200"
-                } `}
-                onClick={() => handlePageClicked(page)}
-              >
-                {page}
-              </button>
-            );
-          })}
+          {/* first page */}
+          {pageButton(1)}
+
+          {currentPage > 4 && (
+            <button className="join-item btn bg-gray-300 cursor-not-allowed opacity-50">
+              ...
+            </button>
+          )}
+
+          {/* middle pages */}
+          {pageNums.map((page) => pageButton(page))}
+
+          {currentPage < lastVisiblePage - 3 && (
+            <button className="join-item btn bg-gray-300 cursor-not-allowed opacity-50">
+              ...
+            </button>
+          )}
+
+          {/* last page */}
+          {pageButton(lastVisiblePage)}
         </div>
       </div>
     </div>

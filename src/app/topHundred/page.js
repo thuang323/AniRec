@@ -1,3 +1,6 @@
+import SeasonsAllTimeTop100 from "@/component/SeasonsAllTimeTop100";
+
 export default function topHundredPage() {
-  return <div><h1>Top 100 ranking page</h1></div>
+  const baseURL = "https://api.jikan.moe/v4/top/anime?sfw";
+  return <SeasonsAllTimeTop100 baseURL={baseURL} query="type" category="Top" />;
 }
