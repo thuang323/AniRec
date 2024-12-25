@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { auth } from "../../firebase";
 
-export default function redirectIfAuth() {
+export default function redirectIfAuth(redirect=true) {
   const [user, setUser] = useState(null);
   const router = useRouter();
 
@@ -19,7 +19,9 @@ export default function redirectIfAuth() {
 
   useEffect(() => {
     if (user) {
-      router.push("/");
+      if (redirect) {
+        router.push("/");
+      }
     }
   }, [user, router]);
 

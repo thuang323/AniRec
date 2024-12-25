@@ -7,7 +7,7 @@ import { auth } from "../../firebase";
 
 export default function Navbar() {
   const router = useRouter();
-  const user = redirectIfAuth();
+  const user = redirectIfAuth(false);
 
   const handleLogout = async () => {
     try {
@@ -48,7 +48,7 @@ export default function Navbar() {
             <a>Genres</a>
           </li>
           <li>
-            <a>My List</a>
+            <a href="/myList">My List</a>
           </li>
         </ul>
       </div>
@@ -60,7 +60,7 @@ export default function Navbar() {
       </div>
       <div className="hidden md:flex md:flex-1">
         <a className="btn btn-ghost hover:bg-gray-800 text-lg">Genres</a>
-        <a className="btn btn-ghost hover:bg-gray-800 text-lg">My List</a>
+        <a href="/myList" className="btn btn-ghost hover:bg-gray-800 text-lg">My List</a>
       </div>
 
       <label className="input input-bordered flex items-center gap-2 mr-1">
