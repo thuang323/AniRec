@@ -10,3 +10,8 @@
   - [ ] Can filter specific year later when view more
 - [x] All Time Popular (filter by bypopularity & use mal api)
 - [x] Top 100 Anime (no filter type & use mal api)
+
+### MyList and Favorites Page
+
+- [ ] if no either lists, display something
+- [ ] add favorites page

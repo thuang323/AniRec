@@ -21,6 +21,8 @@ export default function GoogleSign() {
         await setDoc(doc(db, "users", user.uid), {
           name: user.displayName,
           email: user.email,
+          favorites: {},
+          myList: {},
         });
         console.log("New Google sign-in user");
       }

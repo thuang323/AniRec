@@ -1,7 +1,11 @@
-import React from "react";
+"use client";
+
+import React, { use, useState, useEffect } from "react";
 import Navbar from "@/component/Navbar";
+import { useRouter } from "next/navigation";
 import { Star, Trophy, List, Heart, Trash2 } from "lucide-react";
 import Recommendations from "@/component/Recommendations";
+import redirectIfAuth from "@/hooks/redirectIfAuth";
 
 async function getAnime(id) {
   const res = await fetch("https://api.jikan.moe/v4/anime/" + id);
@@ -9,9 +13,156 @@ async function getAnime(id) {
   return animeInfo.data;
 }
 
-export default async function AnimePage({ params }) {
-  const { id } = await params;
-  const anime = await getAnime(id);
+async function getListsStatus(userId, animeId) {
+  try {
+    const queryParams = new URLSearchParams({
+      userId: userId,
+      animeId: animeId,
+    }).toString();
+
+    const response = await fetch(`/api/lists/getListsStatus?${queryParams}`, {
+      method: "GET",
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function removeFromList(userId, animeId, type, updateListStatus) {
+  try {
+    const body = {
+      userId: userId,
+      animeId: animeId,
+      type: type,
+    };
+
+    const response = await fetch(`/api/lists/removeFromLists`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      const updatedStatus = await getListsStatus(userId, animeId);
+      updateListStatus(updatedStatus);
+    }
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function addToList(userId, animeId, animeData, type, updateListStatus) {
+  try {
+    const body = {
+      userId: userId,
+      animeId: animeId,
+      animeData: animeData,
+      type: type,
+    };
+
+    const response = await fetch(`/api/lists/addToLists`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      const updatedStatus = await getListsStatus(userId, animeId);
+      updateListStatus(updatedStatus);
+    }
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export default function AnimePage({ params }) {
+  const { id } = use(params);
+  const [anime, setAnime] = useState(null);
+  const [animeData, setAnimeData] = useState(null);
+  const [listStatus, setListStatus] = useState(null);
+  const [listButtonDisabled, setListButtonDisabled] = useState(false);
+  const [favButtonDisabled, setFavButtonDisabled] = useState(false);
+  const user = redirectIfAuth(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const animeInfo = await getAnime(id);
+        setAnime(animeInfo);
+
+        const data = {
+          id: animeInfo.mal_id,
+          title: animeInfo.title_english || animeInfo.title,
+          images: animeInfo.images.jpg.image_url,
+          synopsis: animeInfo.synopsis,
+          type: animeInfo.type,
+          episodes: animeInfo.episodes,
+          seasons: animeInfo.season,
+          year: animeInfo.year,
+          studios: animeInfo.studios?.[0]?.name || "",
+          genres: animeInfo.genres.map((genre) => genre.name),
+        };
+        setAnimeData(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    if (!user) return;
+    const fetchStatus = async () => {
+      try {
+        const status = await getListsStatus(user.uid, id);
+        setListStatus(status);
+        console.log(status);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchStatus();
+  }, [id, user]);
+
+  const handleAddRemove = async (buttonType, listType) => {
+    if (listType === "myList") {
+      setListButtonDisabled(true);
+    } else {
+      setFavButtonDisabled(true);
+    }
+
+    if (buttonType === "add") {
+      await addToList(user.uid, id, animeData, listType, setListStatus);
+    } else {
+      await removeFromList(user.uid, id, listType, setListStatus);
+    }
+
+    if (listType === "myList") {
+      setTimeout(() => setListButtonDisabled(false), 1000);
+    } else {
+      setTimeout(() => setFavButtonDisabled(false), 1000);
+    }
+  };
+
+  const handleRedirect = () => {
+    router.push("/login");
+  };
 
   if (!anime) {
     return <div>Loading...</div>;
@@ -44,15 +195,66 @@ export default async function AnimePage({ params }) {
             </div>
             {/* buttons for list and favorites */}
             <div className="flex justify-center">
-              <button className="btn rounded-lg bg-sky-300 hover:bg-sky-500">
-                <List />
-                <span>+ List</span>
-              </button>
+              {listStatus ? (
+                <>
+                  {listStatus.isMyList ? (
+                    <button
+                      onClick={() => handleAddRemove("remove", "myList")}
+                      disabled={listButtonDisabled}
+                      className="btn rounded-lg bg-red-400 hover:bg-red-700"
+                    >
+                      <Trash2 />
+                      <span>- List</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleAddRemove("add", "myList")}
+                      disabled={listButtonDisabled}
+                      className="btn rounded-lg bg-sky-300 hover:bg-sky-500"
+                    >
+                      <List />
+                      <span>+ List</span>
+                    </button>
+                  )}
 
-              <button className="btn rounded-lg bg-pink-400 hover:bg-pink-600">
-                <Heart />
-                <span>+ Favorites</span>
-              </button>
+                  {listStatus.isFavorites ? (
+                    <button
+                      onClick={() => handleAddRemove("remove", "favorites")}
+                      disabled={favButtonDisabled}
+                      className="btn rounded-lg bg-red-400 hover:bg-red-700"
+                    >
+                      <Trash2 />
+                      <span>- Favorites</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleAddRemove("add", "favorites")}
+                      disabled={favButtonDisabled}
+                      className="btn rounded-lg bg-pink-400 hover:bg-pink-600"
+                    >
+                      <Heart />
+                      <span>+ Favorites</span>
+                    </button>
+                  )}
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={handleRedirect}
+                    className="btn rounded-lg bg-sky-300 hover:bg-sky-500"
+                  >
+                    <List />
+                    <span>+ List</span>
+                  </button>
+                  <button
+                    onClick={handleRedirect}
+                    className="btn rounded-lg bg-pink-400 hover:bg-pink-600"
+                  >
+                    <Heart />
+                    <span>+ Favorites</span>
+                  </button>
+                </>
+              )}
             </div>
             {/* anime info */}
             <div className="bg-white p-3 rounded-lg mx-6 text-sm shadow-lg">

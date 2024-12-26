@@ -39,6 +39,8 @@ export default function Register() {
       await setDoc(doc(db, "users", user.uid), {
         name: name,
         email: email,
+        favorites: {},
+        myList: {},
       });
       console.log("User registered successfully!");
       router.push("/");
