@@ -101,6 +101,8 @@ export default function SeasonsAllTimeTop100({ baseURL, category, query }) {
             )}
           />
         </div>
+        
+        {/* paginatio */}
         <div className="join flex justify-center mt-8">
           {/* first page */}
           {pageButton(1)}
