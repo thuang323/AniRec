@@ -58,6 +58,9 @@ export default function Navbar() {
           <li>
             <a href="/myList">My List</a>
           </li>
+          <li>
+            <a href="/favorites">Favorites</a>
+          </li>
         </ul>
       </div>
 
@@ -70,9 +73,8 @@ export default function Navbar() {
         <a href="/genre" className="btn btn-ghost hover:bg-gray-800 text-lg">
           Genres
         </a>
-        <a href="/myList" className="btn btn-ghost hover:bg-gray-800 text-lg">
-          My List
-        </a>
+        <a href="/myList" className="btn btn-ghost hover:bg-gray-800 text-lg">My List</a>
+        <a href="/favorites" className="btn btn-ghost hover:bg-gray-800 text-lg">Favorites</a>
       </div>
 
       <label className="input input-bordered flex items-center gap-2">
