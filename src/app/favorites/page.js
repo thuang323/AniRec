@@ -7,7 +7,7 @@ import Navbar from "@/component/Navbar";
 import AnimeList from "@/component/AnimeList";
 import redirectIfAuth from "@/hooks/redirectIfAuth";
 
-export default function MyList() {
+export default function Favorites() {
   const user = redirectIfAuth(false);
   const [animeList, setAnimeList] = useState([]);
   const [showContent, setShowContent] = useState(false);
@@ -22,7 +22,7 @@ export default function MyList() {
 
     const queryParams = new URLSearchParams({
       userId: user.uid,
-      type: "myList",
+      type: "favorites",
     }).toString();
 
     const fetchAnimeList = async () => {
@@ -31,7 +31,7 @@ export default function MyList() {
           method: "GET",
         });
         const data = await response.json();
-        setAnimeList(Object.values(data.myList));
+        setAnimeList(Object.values(data.favorites));
       } catch (error) {
         console.log(error);
       }
@@ -45,7 +45,7 @@ export default function MyList() {
       const body = {
         userId: user.uid,
         animeId: animeId,
-        type: "myList",
+        type: "favorites",
       };
 
       const response = await fetch("/api/lists/removeFromLists", {
@@ -81,11 +81,11 @@ export default function MyList() {
             ) : (
               <div className="flex flex-col items-center justify-center p-8 bg-white rounded-lg shadow-sm">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-                  Your Watch List is Empty
+                  Your Favorites List is Empty
                 </h2>
                 <p className="text-gray-600 text-center mb-4">
                   Start building your personalized collection by exploring and
-                  adding to your watch list!
+                  adding your favorite anime series!
                 </p>
                 <a
                   href="/"

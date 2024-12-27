@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { X } from "lucide-react";
 
-export default function AnimeList({ listType, animeList }) {
+export default function AnimeList({ animeList, onRemove }) {
   return (
     <>
       {animeList.map((anime) => (
@@ -37,9 +37,7 @@ export default function AnimeList({ listType, animeList }) {
               </p>
               <button
                 className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
+                onClick={() => onRemove(anime.id)}
               >
                 <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 hover:text-gray-600" />
               </button>
