@@ -69,12 +69,20 @@ export default function Navbar() {
           AniRec
         </a>
       </div>
-      <div className="hidden md:flex md:flex-1">
+
+      <div className="hidden md:flex md:flex-auto">
         <a href="/genre" className="btn btn-ghost hover:bg-gray-800 text-lg">
           Genres
         </a>
-        <a href="/myList" className="btn btn-ghost hover:bg-gray-800 text-lg">My List</a>
-        <a href="/favorites" className="btn btn-ghost hover:bg-gray-800 text-lg">Favorites</a>
+        <a href="/myList" className="btn btn-ghost hover:bg-gray-800 text-lg">
+          My List
+        </a>
+        <a
+          href="/favorites"
+          className="btn btn-ghost hover:bg-gray-800 text-lg"
+        >
+          Favorites
+        </a>
       </div>
 
       <label className="input input-bordered flex items-center gap-2">
@@ -82,7 +90,7 @@ export default function Navbar() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="text-gray-600"
+          className="text-gray-600 w-full"
           placeholder="Search"
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
