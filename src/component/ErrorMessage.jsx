@@ -5,7 +5,6 @@ export default function ErrorMessage({ category }) {
     <div className="p-8 my-4 bg-rose-50 rounded-lg border border-rose-200 max-w-screen-xl mx-auto">
       <div className="flex flex-col items-center gap-3">
         <svg
-          xmlns="http://www.w3.org/2000/svg"
           className="h-12 w-12 text-rose-400"
           fill="none"
           viewBox="0 0 24 24"

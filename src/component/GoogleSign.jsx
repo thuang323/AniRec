@@ -4,6 +4,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "../../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function GoogleSign() {
   const router = useRouter();
@@ -16,7 +17,8 @@ export default function GoogleSign() {
 
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists()) {
-        console.log("Logging in user with Google");
+        // console.log("Logging in with Google");
+        toast.success("Login successfully with Google");
       } else {
         await setDoc(doc(db, "users", user.uid), {
           name: user.displayName,
@@ -24,11 +26,13 @@ export default function GoogleSign() {
           favorites: {},
           myList: {},
         });
-        console.log("New Google sign-in user");
+        // console.log("New Google sign-in user");
+        toast.success("Registered successfully with Google");
       }
       router.push("/");
     } catch (error) {
-      console.error(error.message);
+      // console.error(error.message);
+      toast.error("Failed to continue with Google");
     }
   };
 
@@ -37,12 +41,7 @@ export default function GoogleSign() {
       onClick={handleGoogleSignIn}
       className="bg-slate-800 w-full p-4 inline-flex justify-center rounded-md space-x-2"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="25"
-        height="25"
-        viewBox="0 0 48 48"
-      >
+      <svg width="25" height="25" viewBox="0 0 48 48">
         <path
           fill="#FFC107"
           d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"

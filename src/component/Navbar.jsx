@@ -5,6 +5,7 @@ import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { auth } from "../../firebase";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Navbar() {
   const router = useRouter();
@@ -15,9 +16,11 @@ export default function Navbar() {
     try {
       await signOut(auth);
       router.push("/");
-      console.log("Logout successfully");
+      // console.log("Logout successfully");
+      toast.success("Logout successfully");
     } catch (error) {
-      console.error(error.message);
+      // console.error(error.message);
+      toast.error("Logout failed");
     }
   };
 
@@ -138,6 +141,14 @@ export default function Navbar() {
           <span>Login</span>
         </button>
       )}
+      <ToastContainer
+        theme="dark"
+        autoClose={1500}
+        pauseOnHover={false}
+        closeOnClick={true}
+        draggable
+        newestOnTop
+      />
     </div>
   );
 }

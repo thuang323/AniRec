@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Star, Trophy, List, Heart, Trash2 } from "lucide-react";
 import Recommendations from "@/component/Recommendations";
 import redirectIfAuth from "@/hooks/redirectIfAuth";
+import { PulseLoader } from "react-spinners";
 
 async function getAnime(id) {
   const res = await fetch("https://api.jikan.moe/v4/anime/" + id);
@@ -165,7 +166,11 @@ export default function AnimePage({ params }) {
   };
 
   if (!anime) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center">
+        <PulseLoader color="#080808" size={15} />
+      </div>
+    );
   }
 
   return (
@@ -330,6 +335,7 @@ export default function AnimePage({ params }) {
                 src={anime.trailer.embed_url}
                 className="w-full aspect-video"
                 allowFullScreen
+                allow="clipboard-read; clipboard-write"
               />
             </div>
           </div>
